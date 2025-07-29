@@ -1,72 +1,64 @@
-import { useState } from "react";
-import type { Product } from "../types/Product";
-import ProductTable from "../components/ProductTable";
-import ProductForm from "../components/ProductForm";
-import { Dialog, DialogContent, DialogTitle } from "../components/ui/dialog";
+import ProductTable from "../components/products/ProductTable";
+import ProductForm from "../components/products/ProductForm";
 import {
-  AlertDialogHeader,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
+  AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
 } from "../components/ui/alert-dialog";
+import { useProductsController } from "../hooks/useProductsController";
+import { Button } from "../components/ui/button";
 
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: "Sample Product",
-    description: "A sample product for demo purposes.",
-    price: 19.99,
-    stock_quantity: 50,
-    created_at: new Date().toISOString(),
-  },
-];
+const ProductsPage = () => {
+  const {
+    products,
+    loading,
+    error,
+    handleAdd,
+    handleEdit,
+    handleDelete,
+    showForm,
+    setShowForm,
+    editingProduct,
+    handleFormSubmit,
+    handleFormCancel,
+    formLoading,
+    deleteProductId,
+    setDeleteProductId,
+    confirmDelete,
+  } = useProductsController();
 
-export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
-  const [showForm, setShowForm] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
-
-  function handleAdd() {
-    setEditingProduct(null);
-    setShowForm(true);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-lg">Loading products...</div>
+      </div>
+    );
   }
 
-  function handleEdit(product: Product) {
-    setEditingProduct(product);
-    setShowForm(true);
-  }
-
-  function handleDelete(product: Product) {
-    setDeleteProduct(product);
-  }
-
-  function confirmDelete() {
-    if (deleteProduct) {
-      setProducts(products.filter((p) => p.id !== deleteProduct.id));
-      setDeleteProduct(null);
-    }
-  }
-
-  function handleFormCancel() {
-    setShowForm(false);
-    setEditingProduct(null);
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
   }
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Products</h1>
       <div className="mb-4 flex justify-end">
-        <button
-          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          onClick={handleAdd}
-        >
-          Add Product
-        </button>
+        <Button onClick={handleAdd}>Add Product</Button>
       </div>
       <ProductTable
         products={products}
@@ -74,36 +66,38 @@ export default function ProductsPage() {
         onDelete={handleDelete}
       />
 
-      {/* Add/Edit Product Dialog */}
+      {/* For Add/Edit Product Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
         <DialogContent>
-          <AlertDialogHeader>
+          <DialogHeader>
             <DialogTitle>
               {editingProduct ? "Edit Product" : "Add Product"}
             </DialogTitle>
-          </AlertDialogHeader>
+          </DialogHeader>
           <ProductForm
             initialValues={editingProduct || {}}
+            onSubmit={handleFormSubmit}
             onCancel={handleFormCancel}
+            loading={formLoading}
           />
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation AlertDialog */}
+      {/* For Delete Product Dialog */}
       <AlertDialog
-        open={!!deleteProduct}
-        onOpenChange={(open) => !open && setDeleteProduct(null)}
+        open={!!deleteProductId}
+        onOpenChange={(open) => !open && setDeleteProductId(null)}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Product</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete <b>{deleteProduct?.name}</b>? This
-              action cannot be undone.
+              Are you sure you want to delete this product? This action cannot
+              be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteProduct(null)}>
+            <AlertDialogCancel onClick={() => setDeleteProductId(null)}>
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete}>
@@ -114,4 +108,6 @@ export default function ProductsPage() {
       </AlertDialog>
     </div>
   );
-}
+};
+
+export default ProductsPage;

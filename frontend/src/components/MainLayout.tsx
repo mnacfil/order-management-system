@@ -1,8 +1,9 @@
 import { ListOrdered } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { navItems } from "../lib/constants";
+import { Toaster } from "sonner";
 
-export default function MainLayout() {
+const MainLayout = () => {
   const location = useLocation();
   return (
     <div className="flex min-h-screen">
@@ -30,8 +31,11 @@ export default function MainLayout() {
         </nav>
       </aside>
       <main className="flex-1 p-6 bg-white">
+        <Toaster richColors position="top-right" />
         <Outlet />
       </main>
     </div>
   );
-}
+};
+
+export default MainLayout;

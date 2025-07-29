@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { Product } from "../types/Product";
+import type { Product } from "../../types/Product";
 import {
   Form,
   FormField,
@@ -9,18 +9,19 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./ui/form";
+} from "../../components/ui/form";
+import { Button } from "../ui/button";
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   price: z.preprocess(
     (val) => Number(val),
-    z.number().min(1, "Price is required and must be > 0")
+    z.number().min(0, "Price is required and must be >= 0")
   ),
   stock_quantity: z.preprocess(
     (val) => Number(val),
-    z.number().int().min(1, "Stock is required and must be > 0")
+    z.number().int().min(0, "Stock is required and must be >= 0")
   ),
 });
 
@@ -28,13 +29,17 @@ type ProductFormValues = z.input<typeof productSchema>;
 
 interface ProductFormProps {
   initialValues?: Partial<Product>;
+  onSubmit: (values: ProductFormValues) => void;
   onCancel: () => void;
+  loading?: boolean;
 }
 
-export default function ProductForm({
+const ProductForm = ({
   initialValues = {},
+  onSubmit,
   onCancel,
-}: ProductFormProps) {
+  loading = false,
+}: ProductFormProps) => {
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -46,7 +51,7 @@ export default function ProductForm({
   });
 
   function handleSubmit(values: ProductFormValues) {
-    console.log(values);
+    onSubmit(values);
   }
 
   return (
@@ -88,7 +93,7 @@ export default function ProductForm({
                 <input
                   type="number"
                   min="0"
-                  step="1"
+                  step="0.01"
                   className="border rounded px-2 py-1 w-full"
                   {...field}
                   value={
@@ -126,22 +131,23 @@ export default function ProductForm({
             </FormItem>
           )}
         />
-        <div className="flex justify-end gap-2">
-          <button
+        <div className="flex gap-2 justify-end">
+          <Button
             type="button"
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
             onClick={onCancel}
+            variant={"secondary"}
+            disabled={loading}
+            className="cursor-pointer"
           >
             Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            Save
-          </button>
+          </Button>
+          <Button type="submit" disabled={loading} className="cursor-pointer">
+            {loading ? "Saving..." : "Save"}
+          </Button>
         </div>
       </form>
     </Form>
   );
-}
+};
+
+export default ProductForm;

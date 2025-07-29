@@ -9,7 +9,7 @@ const AppError = require("../utils/errors/AppError");
 class ProductService {
   async validateProductId(id) {
     try {
-      await productIdSchema.validateAsync({ id });
+      await productIdSchema.parseAsync({ id });
     } catch (err) {
       throw new AppError(`Error: ${err.message}`, 400);
     }
@@ -17,7 +17,7 @@ class ProductService {
 
   async createProduct(productData) {
     try {
-      await createProductSchema.validateAsync(productData);
+      await createProductSchema.parseAsync(productData);
       return await Product.create(productData);
     } catch (err) {
       if (err instanceof AppError) throw err;
@@ -37,7 +37,7 @@ class ProductService {
   async updateProduct(id, productData) {
     await this.validateProductId(id);
     try {
-      await updateProductSchema.validateAsync(productData);
+      await updateProductSchema.parseAsync(productData);
       return await Product.update(id, productData);
     } catch (err) {
       if (err instanceof AppError) throw err;

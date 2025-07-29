@@ -1,4 +1,4 @@
-export default function ReportsPage() {
+const ReportsPage = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Reports</h1>
@@ -7,4 +7,6 @@ export default function ReportsPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ReportsPage;

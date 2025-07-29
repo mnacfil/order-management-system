@@ -1,4 +1,4 @@
-export default function InventoryPage() {
+const InventoryPage = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Inventory</h1>
@@ -7,4 +7,6 @@ export default function InventoryPage() {
       </div>
     </div>
   );
-}
+};
+
+export default InventoryPage;

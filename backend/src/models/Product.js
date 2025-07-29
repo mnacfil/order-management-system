@@ -1,5 +1,5 @@
-const db = require("../config/db");
-const AppError = require("../utils/errors/AppError");
+const db = require("../config/db.js");
+const AppError = require("../utils/errors/AppError.js");
 
 class Product {
   static async create(productData) {

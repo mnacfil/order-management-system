@@ -1,4 +1,4 @@
-export default function OrdersPage() {
+const OrdersPage = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Orders</h1>
@@ -7,4 +7,6 @@ export default function OrdersPage() {
       </div>
     </div>
   );
-}
+};
+
+export default OrdersPage;
