@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import db from "./config/db.js";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const productRoutes = require("./routes/productRoutes");
 
 dotenv.config();
 
@@ -10,23 +10,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/products", productRoutes);
+
+// Basic routes for testing
 app.get("/", (req, res) => {
   res.json({ message: "Order Management System API" });
 });
 
-app.get("/db-test", async (req, res) => {
-  try {
-    const [rows] = await db.query("SELECT 1 + 1 AS result");
-    res.json({ success: true, result: rows });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error?.message });
-  }
+app.get("/test", (req, res) => {
+  res.json({ message: "Server is working!" });
 });
 
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
 });
 
-export default app;
+module.exports = app;
