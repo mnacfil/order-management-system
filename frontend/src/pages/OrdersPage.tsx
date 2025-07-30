@@ -17,18 +17,23 @@ const OrdersPage = () => {
     orders,
     loading,
     error,
-    handleConfirmOrder,
-    handleCancelOrder,
-    refetch,
     showCancelOrder,
     showConfirmOrder,
+    showDeleteOrder,
     orderId,
+    handleConfirmOrder,
+    handleCancelOrder,
+    handleDeleteOrder,
+    refetch,
     handleShowConfirmOrder,
     handleHideConfirmOrder,
     handleShowCancelOrder,
     handleHideCancelOrder,
     setShowCancelOrder,
     setShowConfirmOrder,
+    setShowDeleteOrder,
+    handleShowDeleteOrder,
+    handleHideDeleteOrder,
   } = useOrdersController();
 
   if (loading) {
@@ -63,6 +68,7 @@ const OrdersPage = () => {
         orders={orders}
         handleShowConfirmOrder={handleShowConfirmOrder}
         handleShowCancelOrder={handleShowCancelOrder}
+        handleShowDeleteOrder={handleShowDeleteOrder}
       />
       {/* For Confirming orders dialog */}
       <AlertDialog
@@ -118,6 +124,36 @@ const OrdersPage = () => {
                 if (!orderId) return;
                 handleCancelOrder(orderId);
                 handleHideCancelOrder();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* For deleting orders dialog */}
+      <AlertDialog
+        open={showDeleteOrder}
+        onOpenChange={(open) => !open && setShowDeleteOrder(false)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this order? This action cannot be
+              undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleHideDeleteOrder}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!orderId) return;
+                handleDeleteOrder(orderId);
+                handleHideDeleteOrder();
               }}
             >
               Continue

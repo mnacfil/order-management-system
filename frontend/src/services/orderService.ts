@@ -102,6 +102,15 @@ class OrderService {
       throw new Error("Failed to cancel order");
     }
   }
+
+  async deleteOrder(id: number): Promise<void> {
+    try {
+      await apiClient.delete(`${this.baseUrl}/${id}`);
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      throw new Error("Failed to delete order");
+    }
+  }
 }
 
 export default new OrderService();

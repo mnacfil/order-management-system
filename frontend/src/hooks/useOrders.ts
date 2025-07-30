@@ -66,6 +66,19 @@ export const useOrders = () => {
     }
   };
 
+  const deleteOrder = async (id: number): Promise<void> => {
+    try {
+      setError(null);
+      await orderService.deleteOrder(id);
+      setOrders((prev) => prev.filter((order) => order.id !== id));
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to delete order";
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -77,6 +90,7 @@ export const useOrders = () => {
     createOrder,
     confirmOrder,
     cancelOrder,
+    deleteOrder,
     fetchOrders,
     refetch: fetchOrders,
   };

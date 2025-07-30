@@ -83,6 +83,19 @@ class OrderController {
       next(err);
     }
   }
+
+  async deleteOrder(req, res, next) {
+    try {
+      const result = await orderService.deleteOrder(req.params.id);
+      res.json({
+        status: "success",
+        data: result,
+        message: "Order deleted successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = new OrderController();

@@ -7,12 +7,14 @@ interface OrderTableProps {
   orders: Order[];
   handleShowConfirmOrder: (orderId: number) => void;
   handleShowCancelOrder: (orderId: number) => void;
+  handleShowDeleteOrder: (orderId: number) => void;
 }
 
 const OrderTable = ({
   orders,
   handleShowConfirmOrder,
   handleShowCancelOrder,
+  handleShowDeleteOrder,
 }: OrderTableProps) => {
   if (orders.length === 0) {
     return (
@@ -58,6 +60,7 @@ const OrderTable = ({
                   order={order}
                   onConfirm={handleShowConfirmOrder}
                   onCancel={handleShowCancelOrder}
+                  onDelete={handleShowDeleteOrder}
                 />
               </td>
             </tr>

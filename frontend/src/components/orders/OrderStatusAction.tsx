@@ -4,9 +4,7 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   MoreHorizontalIcon,
-  PencilIcon,
   TrashIcon,
-  ShoppingCartIcon,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -21,13 +19,18 @@ interface OrderStatusActionProps {
   order: Order;
   onConfirm: (orderId: number) => void;
   onCancel: (orderId: number) => void;
+  onDelete: (orderId: number) => void;
 }
 
 const OrderStatusAction = ({
   order,
   onConfirm,
   onCancel,
+  onDelete,
 }: OrderStatusActionProps) => {
+  if (order.status === "confirmed") {
+    return null;
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -57,9 +60,9 @@ const OrderStatusAction = ({
             </DropdownMenuItem>
           </>
         )}
-        {order.status === "confirmed" && (
+        {(order.status === "pending" || order.status === "cancelled") && (
           <DropdownMenuItem
-            onClick={() => onCancel(order.id)}
+            onClick={() => onDelete(order.id)}
             className="cursor-pointer"
           >
             <TrashIcon className="h-4 w-4" />

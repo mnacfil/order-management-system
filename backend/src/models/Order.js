@@ -236,6 +236,40 @@ class Order {
       connection.release();
     }
   }
+
+  static async deleteOrder(orderId) {
+    const connection = await db.getConnection();
+    try {
+      await connection.beginTransaction();
+
+      // Get order details
+      const order = await this.findById(orderId);
+
+      // Only allow deletion of pending or cancelled orders
+      if (order.status === "confirmed") {
+        throw new AppError(
+          "Cannot delete confirmed orders. Please cancel the order first.",
+          400
+        );
+      }
+
+      // Delete order items associated with the order
+      await connection.query(`DELETE FROM Order_Items WHERE order_id = ?`, [
+        orderId,
+      ]);
+
+      // Delete the order
+      await connection.query(`DELETE FROM Orders WHERE id = ?`, [orderId]);
+
+      await connection.commit();
+      return { message: "Order deleted successfully" };
+    } catch (err) {
+      await connection.rollback();
+      throw err;
+    } finally {
+      connection.release();
+    }
+  }
 }
 
 module.exports = Order;

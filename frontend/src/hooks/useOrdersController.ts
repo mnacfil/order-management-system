@@ -10,6 +10,7 @@ export const useOrdersController = () => {
   const [orderId, setOrderId] = useState<number | null>(null);
   const [showCancelOrder, setShowCancelOrder] = useState(false);
   const [showConfirmOrder, setShowConfirmOrder] = useState(false);
+  const [showDeleteOrder, setShowDeleteOrder] = useState(false);
   const {
     orders,
     loading,
@@ -19,6 +20,7 @@ export const useOrdersController = () => {
     refetch,
     confirmOrder,
     cancelOrder,
+    deleteOrder,
   } = useOrders();
 
   const handleShowConfirmOrder = (id: number) => {
@@ -41,6 +43,16 @@ export const useOrdersController = () => {
     setOrderId(null);
   };
 
+  const handleShowDeleteOrder = (id: number) => {
+    setShowDeleteOrder(true);
+    setOrderId(id);
+  };
+
+  const handleHideDeleteOrder = () => {
+    setShowDeleteOrder(false);
+    setOrderId(null);
+  };
+
   const handleConfirmOrder = async (id: number) => {
     try {
       await confirmOrder(id);
@@ -58,6 +70,16 @@ export const useOrdersController = () => {
     } catch (error) {
       console.error("Failed to cancel order:", error);
       toast.error("Failed to cancel order");
+    }
+  };
+
+  const handleDeleteOrder = async (id: number) => {
+    try {
+      await deleteOrder(id);
+      toast.success("Order deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+      toast.error("Failed to delete order");
     }
   };
 
@@ -91,6 +113,7 @@ export const useOrdersController = () => {
     orderLoading,
     showCancelOrder,
     showConfirmOrder,
+    showDeleteOrder,
     orderId,
     refetch,
     createOrder,
@@ -100,6 +123,7 @@ export const useOrdersController = () => {
     handleOrderCancel,
     handleConfirmOrder,
     handleCancelOrder,
+    handleDeleteOrder,
     handleShowConfirmOrder,
     handleHideConfirmOrder,
     handleShowCancelOrder,
@@ -109,5 +133,8 @@ export const useOrdersController = () => {
     setOrderId,
     setShowCancelOrder,
     setShowConfirmOrder,
+    setShowDeleteOrder,
+    handleShowDeleteOrder,
+    handleHideDeleteOrder,
   };
 };

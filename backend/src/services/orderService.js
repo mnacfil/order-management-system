@@ -34,6 +34,10 @@ const cancelOrderSchema = z.object({
   orderId: z.preprocess((val) => Number(val), z.number().int().positive()),
 });
 
+const deleteOrderSchema = z.object({
+  orderId: z.preprocess((val) => Number(val), z.number().int().positive()),
+});
+
 class OrderService {
   async createOrder(items = []) {
     try {
@@ -127,6 +131,22 @@ class OrderService {
         throw new AppError(`Validation error: ${err.message}`, 400);
       }
       throw new AppError("Failed to cancel order", 500);
+    }
+  }
+
+  async deleteOrder(orderId) {
+    try {
+      const validatedData = deleteOrderSchema.parse({
+        orderId,
+      });
+
+      return await Order.deleteOrder(validatedData.orderId);
+    } catch (err) {
+      if (err instanceof AppError) throw err;
+      if (err.name === "ZodError") {
+        throw new AppError(`Validation error: ${err.message}`, 400);
+      }
+      throw new AppError("Failed to delete order", 500);
     }
   }
 
