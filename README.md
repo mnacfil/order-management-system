@@ -34,4 +34,8 @@ order-system/
 **Backend**: Node.js, Express, MySQL, Zod
 **Frontend**: React, TypeScript, Vite, Tailwind CSS, Shadcn UI
 
+## Screenshots
+
+- Please see the PR
+
 For detailed setup instructions, see `setup-instructions.md`.
