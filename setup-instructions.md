@@ -43,6 +43,7 @@
 3. **Configure database connection**
 
    - Create `.env` file
+   - Please see the Environment Variables section below.
    - The credential will be used to connect to mysql server.
 
 4. **Start the backend server**
