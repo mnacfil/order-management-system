@@ -8,15 +8,26 @@ import {
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
+import {
+  MoreHorizontalIcon,
+  PencilIcon,
+  TrashIcon,
+  ShoppingCartIcon,
+} from "lucide-react";
 
 interface ProductTableProps {
   products: Product[];
   onEdit: (product: Product) => void;
   onDelete: (product: Product) => void;
+  onOrder: (product: Product) => void;
 }
 
-const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
+const ProductTable = ({
+  products,
+  onEdit,
+  onDelete,
+  onOrder,
+}: ProductTableProps) => {
   return (
     <table className="min-w-full border rounded">
       <thead className="bg-gray-100">
@@ -59,6 +70,13 @@ const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) => {
                   >
                     <TrashIcon className="h-4 w-4" />
                     Delete
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => onOrder(product)}
+                    className="cursor-pointer"
+                  >
+                    <ShoppingCartIcon className="h-4 w-4" />
+                    Order
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

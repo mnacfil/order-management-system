@@ -11,17 +11,18 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().optional(),
   price: z.preprocess(
     (val) => Number(val),
-    z.number().min(0, "Price is required and must be >= 0")
+    z.number().min(1, "Price is required and must be >= 1")
   ),
   stock_quantity: z.preprocess(
     (val) => Number(val),
-    z.number().int().min(0, "Stock is required and must be >= 0")
+    z.number().int().min(1, "Stock is required and must be >= 1")
   ),
 });
 
@@ -45,8 +46,8 @@ const ProductForm = ({
     defaultValues: {
       name: initialValues.name || "",
       description: initialValues.description || "",
-      price: initialValues.price ?? 0,
-      stock_quantity: initialValues.stock_quantity ?? 0,
+      price: initialValues.price ?? 1,
+      stock_quantity: initialValues.stock_quantity ?? 1,
     },
   });
 
@@ -77,7 +78,7 @@ const ProductForm = ({
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <input className="border rounded px-2 py-1 w-full" {...field} />
+                <Input className="border rounded px-2 py-1 w-full" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -90,7 +91,7 @@ const ProductForm = ({
             <FormItem>
               <FormLabel>Price *</FormLabel>
               <FormControl>
-                <input
+                <Input
                   type="number"
                   min="0"
                   step="0.01"
@@ -114,7 +115,7 @@ const ProductForm = ({
             <FormItem>
               <FormLabel>Stock Quantity *</FormLabel>
               <FormControl>
-                <input
+                <Input
                   type="number"
                   min="0"
                   step="1"

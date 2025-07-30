@@ -1,7 +1,6 @@
 import { ListOrdered } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { navItems } from "../lib/constants";
-import { Toaster } from "sonner";
 
 const MainLayout = () => {
   const location = useLocation();
@@ -31,7 +30,6 @@ const MainLayout = () => {
         </nav>
       </aside>
       <main className="flex-1 p-6 bg-white">
-        <Toaster richColors position="top-right" />
         <Outlet />
       </main>
     </div>

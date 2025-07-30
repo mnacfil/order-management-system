@@ -4,6 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Toaster } from "sonner";
 import MainLayout from "./components/MainLayout";
 import ProductsPage from "./pages/ProductsPage";
 import OrdersPage from "./pages/OrdersPage";
@@ -24,6 +25,7 @@ function App() {
           <Route path="reports" element={<ReportsPage />} />
         </Route>
       </Routes>
+      <Toaster richColors position="top-right" />
     </Router>
   );
 }

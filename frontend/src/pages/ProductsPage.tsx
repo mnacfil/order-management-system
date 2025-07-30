@@ -1,5 +1,6 @@
 import ProductTable from "../components/products/ProductTable";
 import ProductForm from "../components/products/ProductForm";
+import OrderForm from "../components/orders/OrderForm";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +18,7 @@ import {
   AlertDialogDescription,
 } from "../components/ui/alert-dialog";
 import { useProductsController } from "../hooks/useProductsController";
+import { useOrdersController } from "../hooks/useOrdersController";
 import { Button } from "../components/ui/button";
 
 const ProductsPage = () => {
@@ -24,19 +26,28 @@ const ProductsPage = () => {
     products,
     loading,
     error,
+    showForm,
+    editingProduct,
+    formLoading,
+    deleteProductId,
     handleAdd,
     handleEdit,
     handleDelete,
-    showForm,
     setShowForm,
-    editingProduct,
     handleFormSubmit,
     handleFormCancel,
-    formLoading,
-    deleteProductId,
     setDeleteProductId,
     confirmDelete,
   } = useProductsController();
+
+  const {
+    showOrderForm,
+    orderLoading,
+    handleOrder,
+    handleOrderSubmit,
+    handleOrderCancel,
+    setShowOrderForm,
+  } = useOrdersController();
 
   if (loading) {
     return (
@@ -64,6 +75,7 @@ const ProductsPage = () => {
         products={products}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onOrder={handleOrder}
       />
 
       {/* For Add/Edit Product Dialog */}
@@ -106,6 +118,21 @@ const ProductsPage = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* For Create Order Dialog */}
+      <Dialog open={showOrderForm} onOpenChange={setShowOrderForm}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create Order</DialogTitle>
+          </DialogHeader>
+          <OrderForm
+            products={products}
+            loading={orderLoading}
+            onSubmit={handleOrderSubmit}
+            onCancel={handleOrderCancel}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
