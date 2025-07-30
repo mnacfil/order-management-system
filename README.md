@@ -25,13 +25,13 @@ order-system/
 
 - Product management (CRUD operations)
 - Order management with status tracking
-- Inventory management
+- Inventory management (not yet done)
 - Order statistics and analytics
-- Activity logging
+- Activity logging (not yet done)
 
 ## Tech Stack
 
 **Backend**: Node.js, Express, MySQL, Zod
-**Frontend**: React, TypeScript, Vite, Tailwind CSS, Radix UI
+**Frontend**: React, TypeScript, Vite, Tailwind CSS, Shadcn UI
 
 For detailed setup instructions, see `setup-instructions.md`.

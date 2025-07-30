@@ -42,21 +42,12 @@
 
 3. **Configure database connection**
 
-   - Edit `src/config/db.js`
-   - Update database credentials:
-
-   ```javascript
-   const dbConfig = {
-     host: "localhost",
-     user: "your_username",
-     password: "your_password",
-     database: "order_management_system",
-   };
-   ```
+   - Create `.env` file
+   - The credential will be used to connect to mysql server.
 
 4. **Start the backend server**
    ```bash
-   npm start
+   npm run dev
    ```
    The backend will run on `http://localhost:4000`
 
@@ -112,7 +103,6 @@
 
 ```bash
 cd backend
-npm start          # Start server
 npm run dev        # Start with nodemon
 ```
 
@@ -132,11 +122,13 @@ Create `.env` files if needed:
 **Backend** (`backend/.env`):
 
 ```
-DB_HOST=localhost
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=order_management_system
+DB_HOST=
+DB_USER=rot
+DB_PASSWORD=
+DB_NAME=
+DB_PORT=
 PORT=4000
+NODE_ENV=development
 ```
 
 **Frontend** (`frontend/.env`):
