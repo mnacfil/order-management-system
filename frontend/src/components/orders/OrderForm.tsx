@@ -150,7 +150,7 @@ const OrderForm = ({
                               key={product.id}
                               value={product.id.toString()}
                             >
-                              {product.name} - ${product.price} (Stock:{" "}
+                              {product.name} - ₱ {product.price} (Stock:{" "}
                               {product.stock_quantity})
                             </SelectItem>
                           ))}
@@ -186,7 +186,7 @@ const OrderForm = ({
                 <FormItem>
                   <FormLabel>Subtotal</FormLabel>
                   <div className="p-2 text-sm font-medium border rounded bg-gray-50">
-                    $
+                    ₱
                     {(() => {
                       const product = products.find(
                         (p) => p.id === form.watch(`items.${index}.productId`)
@@ -208,7 +208,7 @@ const OrderForm = ({
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-semibold">Total</h3>
             <div className="text-xl font-bold">
-              ${getTotalPrice().toFixed(2)}
+              ₱ {getTotalPrice().toFixed(2)}
             </div>
           </div>
         </div>
