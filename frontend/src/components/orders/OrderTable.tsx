@@ -5,16 +5,14 @@ import OrderStatusAction from "./OrderStatusAction";
 
 interface OrderTableProps {
   orders: Order[];
-  onConfirm: (orderId: number) => void;
-  onCancel: (orderId: number) => void;
-  loading?: boolean;
+  handleShowConfirmOrder: (orderId: number) => void;
+  handleShowCancelOrder: (orderId: number) => void;
 }
 
 const OrderTable = ({
   orders,
-  onConfirm,
-  onCancel,
-  loading,
+  handleShowConfirmOrder,
+  handleShowCancelOrder,
 }: OrderTableProps) => {
   if (orders.length === 0) {
     return (
@@ -32,7 +30,7 @@ const OrderTable = ({
             <th className="p-3 text-left">Order #</th>
             <th className="p-3 text-left">Status</th>
             <th className="p-3 text-left">Items</th>
-            <th className="p-3 text-right">Total</th>
+            <th className="p-3 text-center">Total</th>
             <th className="p-3 text-left">Created</th>
             <th className="p-3 text-center">Actions</th>
           </tr>
@@ -50,17 +48,16 @@ const OrderTable = ({
                 </div>
               </td>
               <td className="p-3 text-right font-medium">
-                {order.total_amount}
+                ₱ {Number(order.total_amount).toFixed(2)}
               </td>
               <td className="p-3 text-sm text-gray-600">
                 {formatDate(order.created_at)}
               </td>
-              <td className="p-3 text-center">
+              <td className="p-3 flex items-center justify-center">
                 <OrderStatusAction
                   order={order}
-                  onConfirm={onConfirm}
-                  onCancel={onCancel}
-                  loading={loading}
+                  onConfirm={handleShowConfirmOrder}
+                  onCancel={handleShowCancelOrder}
                 />
               </td>
             </tr>

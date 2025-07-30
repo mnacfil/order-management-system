@@ -1,49 +1,73 @@
 import type { Order } from "../../types/Order";
 import { Button } from "../ui/button";
-import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  MoreHorizontalIcon,
+  PencilIcon,
+  TrashIcon,
+  ShoppingCartIcon,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 interface OrderStatusActionProps {
   order: Order;
   onConfirm: (orderId: number) => void;
   onCancel: (orderId: number) => void;
-  loading?: boolean;
 }
 
 const OrderStatusAction = ({
   order,
-  loading,
   onConfirm,
   onCancel,
 }: OrderStatusActionProps) => {
-  if (order.status === "pending") {
-    return (
-      <div className="flex gap-2">
-        <Button
-          size="sm"
-          onClick={() => onConfirm(order.id)}
-          disabled={loading}
-          className="bg-green-600 hover:bg-green-700"
-        >
-          <CheckCircleIcon className="h-4 w-4 mr-1" />
-          Confirm
-        </Button>
-        <Button
-          size="sm"
-          variant="destructive"
-          onClick={() => onCancel(order.id)}
-          disabled={loading}
-        >
-          <XCircleIcon className="h-4 w-4 mr-1" />
-          Cancel
-        </Button>
-      </div>
-    );
-  }
-
   return (
-    <div className="text-sm text-gray-500">
-      {order.status === "confirmed" ? "Order confirmed" : "Order cancelled"}
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant={"ghost"} size={"icon"}>
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontalIcon className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {order.status === "pending" && (
+          <>
+            <DropdownMenuItem
+              onClick={() => onConfirm(order.id)}
+              className="cursor-pointer"
+            >
+              <CheckCircleIcon className="h-4 w-4" />
+              Confirm
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onCancel(order.id)}
+              className="cursor-pointer"
+            >
+              <XCircleIcon className="h-4 w-4" />
+              Cancel
+            </DropdownMenuItem>
+          </>
+        )}
+        {order.status === "confirmed" && (
+          <DropdownMenuItem
+            onClick={() => onCancel(order.id)}
+            className="cursor-pointer"
+          >
+            <TrashIcon className="h-4 w-4" />
+            Delete
+          </DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

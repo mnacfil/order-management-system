@@ -7,6 +7,9 @@ import { toast } from "sonner";
 export const useOrdersController = () => {
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [orderLoading, setOrderLoading] = useState(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
+  const [showCancelOrder, setShowCancelOrder] = useState(false);
+  const [showConfirmOrder, setShowConfirmOrder] = useState(false);
   const {
     orders,
     loading,
@@ -17,6 +20,26 @@ export const useOrdersController = () => {
     confirmOrder,
     cancelOrder,
   } = useOrders();
+
+  const handleShowConfirmOrder = (id: number) => {
+    setShowConfirmOrder(true);
+    setOrderId(id);
+  };
+
+  const handleHideConfirmOrder = () => {
+    setShowConfirmOrder(false);
+    setOrderId(null);
+  };
+
+  const handleShowCancelOrder = (id: number) => {
+    setShowCancelOrder(true);
+    setOrderId(id);
+  };
+
+  const handleHideCancelOrder = () => {
+    setShowCancelOrder(false);
+    setOrderId(null);
+  };
 
   const handleConfirmOrder = async (id: number) => {
     try {
@@ -66,6 +89,9 @@ export const useOrdersController = () => {
     error,
     showOrderForm,
     orderLoading,
+    showCancelOrder,
+    showConfirmOrder,
+    orderId,
     refetch,
     createOrder,
     handleOrder,
@@ -74,7 +100,14 @@ export const useOrdersController = () => {
     handleOrderCancel,
     handleConfirmOrder,
     handleCancelOrder,
+    handleShowConfirmOrder,
+    handleHideConfirmOrder,
+    handleShowCancelOrder,
+    handleHideCancelOrder,
     setOrderLoading,
     setShowOrderForm,
+    setOrderId,
+    setShowCancelOrder,
+    setShowConfirmOrder,
   };
 };

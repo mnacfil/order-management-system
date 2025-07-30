@@ -10,14 +10,14 @@ const OrderStatusBadge = ({ status }: OrderStatusBadgeProps) => {
   switch (status) {
     case "pending":
       return (
-        <Badge variant="secondary" className="flex items-center gap-1">
+        <Badge className="flex items-center gap-1 bg-yellow-500 text-white">
           <ClockIcon className="h-3 w-3" />
           Pending
         </Badge>
       );
     case "confirmed":
       return (
-        <Badge variant="default" className="flex items-center gap-1">
+        <Badge className="flex items-center gap-1 bg-green-500 text-white">
           <CheckCircleIcon className="h-3 w-3" />
           Confirmed
         </Badge>

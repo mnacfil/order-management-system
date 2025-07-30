@@ -24,7 +24,7 @@ const OrderStats = ({ orders }: OrderStatsProps) => {
   ).length;
   const totalRevenue = orders
     .filter((order) => order.status === "confirmed")
-    .reduce((sum, order) => sum + order.total_amount, 0);
+    .reduce((sum, order) => sum + Number(order.total_amount), 0);
 
   const stats = [
     {
@@ -78,7 +78,7 @@ const OrderStats = ({ orders }: OrderStatsProps) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold text-green-600">
-            {totalRevenue}
+            ₱ {totalRevenue.toFixed(2)}
           </div>
         </CardContent>
       </Card>

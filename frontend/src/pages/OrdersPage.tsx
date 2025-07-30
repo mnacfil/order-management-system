@@ -1,6 +1,16 @@
 import OrderTable from "../components/orders/OrderTable";
 import OrderStats from "../components/orders/OrderStats";
 import { useOrdersController } from "../hooks/useOrdersController";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../components/ui/alert-dialog";
 
 const OrdersPage = () => {
   const {
@@ -10,6 +20,15 @@ const OrdersPage = () => {
     handleConfirmOrder,
     handleCancelOrder,
     refetch,
+    showCancelOrder,
+    showConfirmOrder,
+    orderId,
+    handleShowConfirmOrder,
+    handleHideConfirmOrder,
+    handleShowCancelOrder,
+    handleHideCancelOrder,
+    setShowCancelOrder,
+    setShowConfirmOrder,
   } = useOrdersController();
 
   if (loading) {
@@ -42,10 +61,70 @@ const OrdersPage = () => {
       <OrderStats orders={orders} />
       <OrderTable
         orders={orders}
-        onConfirm={handleConfirmOrder}
-        onCancel={handleCancelOrder}
-        loading={loading}
+        handleShowConfirmOrder={handleShowConfirmOrder}
+        handleShowCancelOrder={handleShowCancelOrder}
       />
+      {/* For Confirming orders dialog */}
+      <AlertDialog
+        open={showConfirmOrder}
+        onOpenChange={(open) => !open && setShowConfirmOrder(false)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to confirm this order? The order will be
+              marked as confirmed and the order status will be updated to
+              "confirmed".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleHideConfirmOrder}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!orderId) return;
+                handleConfirmOrder(orderId);
+                handleHideConfirmOrder();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* For Cancelling orders dialog */}
+      <AlertDialog
+        open={showCancelOrder}
+        onOpenChange={(open) => !open && setShowCancelOrder(false)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cancel Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to cancel this order? The order will be
+              marked as cancelled and the order status will be updated to
+              "cancelled".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleHideCancelOrder}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (!orderId) return;
+                handleCancelOrder(orderId);
+                handleHideCancelOrder();
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
